@@ -1,6 +1,6 @@
 # Quantifying Knowledge Accumulation in Scientific Psychology  
-Master’s Thesis — University of Zurich (2023)  
-Authors: Berit T. Barthelmes & Vencislav (Ven) Popov
+Master’s Thesis — University of Zurich (2024)  
+Authors: Berit T. Barthelmes & Vencislav Popov
 
 A semi-automated, transparent pipeline for examining how psychological theories are discussed in the scientific literature.  
 Note: This pipeline analyzes discourse patterns, not theoretical correctness.
