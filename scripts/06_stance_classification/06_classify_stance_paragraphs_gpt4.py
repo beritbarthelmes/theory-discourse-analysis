@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 
 # create argument parser
 parser = argparse.ArgumentParser()
+parser.add_argument("--model", type=str, default="gpt-4", help="OpenAI model name")
 parser.add_argument("-i", "--input", type=str, required=True, help="input csv file")
 parser.add_argument("-o", "--output", type=str, required=True, help="output csv file")
 args = parser.parse_args()
@@ -73,8 +74,8 @@ def chatGPT_rate_category(query, paragraph, filename, paragraph_idx=None):
                 ]
     
     # define parameters
-    model_engine = "gpt-4"
-    temperature = 0.3
+    model_engine = args.model
+    temperature = 0.0
 
     # submit the QUERY
     completion = completion_with_backoff(
@@ -113,6 +114,17 @@ def chatGPT_rate_category(query, paragraph, filename, paragraph_idx=None):
 
 if __name__ == "__main__":
     load_dotenv()
+
+    import datetime, platform
+    run_info = {
+        "timestamp_utc": datetime.datetime.utcnow().isoformat(),
+        "model": args.model,
+        "temperature": 0.0,
+        "iterations": getattr(args, "iterations", None),
+        "python": platform.python_version(),
+    }
+    logger.info(f"RUN_INFO {run_info}")
+
 
     # set OpenAI key
     openai.api_key = os.getenv("GPT4_KEY")
