@@ -1,6 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+"""
+Project: Theory Discourse Analysis
+Reconstruct missing article metadata by matching CSV records to an EBSCO XML export
+"""
 
 import pandas as pd
 from lxml import etree
