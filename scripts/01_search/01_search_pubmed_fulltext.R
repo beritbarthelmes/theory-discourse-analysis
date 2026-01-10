@@ -2,16 +2,6 @@
 # Retrieve and scope theory-related articles across PubMed, PMC, PLOS, and Crossref for corpus construction
 
 # Install packages
-install.packages("rentrez")
-# Required by fulltext package
-remotes::install_github("ropensci-archive/microdemic")
-remotes::install_github("ropensci/fulltext")
-install.packages("xml2")
-install.packages("httr")
-install.packages("broom")
-install.packages("data.table")
-install.packages("jsonlite")
-
 library(rentrez)
 library(fulltext)
 library(xml2)
