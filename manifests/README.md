@@ -26,6 +26,7 @@ Each row corresponds to one article. The dataset includes:
 - `article_type`: Empirical (1), Review (2), Theoretical/Modeling (3)  
 - `research_type`: Basic (0), Applied (1)  
 - `expert1_categorization`: Expert-coded stance toward memory decay theory  
+  (0 = Ambiguous, 1 = Against, 2 = Support, 3 = Tacit acceptance)
 - `interaction_decay_interference`: No (0), Yes (1)  
 - `new_theory_proposed`: No (0), Yes (1)  
 
