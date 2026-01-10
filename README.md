@@ -1,4 +1,4 @@
-# Assessing Psychology’s Theory Crisis: A Disourse-Based Analysis
+# Assessing Psychology’s Theory Crisis: A Discourse-Based Analysis
 **Berit T. Barthelmes & Vencislav Popov**
 
 This project examines how scientific articles position themselves with respect to a target theory, focusing on patterns in theoretical discourse rather than on assessing theoretical correctness.
