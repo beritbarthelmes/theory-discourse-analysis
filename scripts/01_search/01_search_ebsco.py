@@ -1,6 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+"""
+Project: Theory Discourse Analysis
+Automate EBSCOhost searches for a theory-specific query and access available full-text articles via a browser-based workflow
+"""
 
 from dotenv import load_dotenv
 load_dotenv()
