@@ -1,6 +1,5 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+# Project: Theory Discourse Analysis
+# Retrieve and scope theory-related articles across PubMed, PMC, PLOS, and Crossref for corpus construction
 
 # Install packages
 install.packages("rentrez")
