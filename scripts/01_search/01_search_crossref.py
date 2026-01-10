@@ -1,7 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
-# 04-20-2023
+"""
+Project: Theory Discourse Analysis
+Retrieve available PDF links from Crossref for a list of DOIs and download them via a browser-based workflow
+"""
 
 from crossref.restful import Works
 from selenium import webdriver
