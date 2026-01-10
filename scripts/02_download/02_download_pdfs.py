@@ -1,6 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+"""
+Project: Theory Discourse Analysis
+Download PDFs for a list of DOIs using a browser-based workflow for full-text acquisition
+"""
 
 # set up selenium
 from webdriver_manager.chrome import ChromeDriverManager
