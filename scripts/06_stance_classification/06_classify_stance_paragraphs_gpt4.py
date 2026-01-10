@@ -1,6 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+"""
+Project: Theory Discourse Analysis
+Classify theory-relevant paragraphs by stance toward a target theory using GPT-assisted annotations
+"""
 
 import os 
 import xml.etree.ElementTree as ET
