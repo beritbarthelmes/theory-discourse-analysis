@@ -1,6 +1,5 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+# Project: Theory Discourse Analysis
+# Retrieve Crossref metadata for a theory-specific query and generate descriptive summaries and DOI lists
 
 ###################################
 #            CROSSREF             #
