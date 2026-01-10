@@ -7,7 +7,11 @@ import xml.etree.ElementTree as ET
 import os
 
 # assign directory
-articles_directory = "../articles_xml/"
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--input_dir", required=True, help="Directory containing TEI XML files")
+args = parser.parse_args()
+articles_directory = args.input_dir
 
 no_abstract_files = []
 files = os.listdir(articles_directory)
