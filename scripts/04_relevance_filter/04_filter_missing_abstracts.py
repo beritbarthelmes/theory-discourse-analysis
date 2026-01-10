@@ -1,6 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+"""
+Project: Theory Discourse Analysis
+Remove article XML files that lack an abstract as part of corpus quality control
+"""
 
 import xml.etree.ElementTree as ET
 import os
