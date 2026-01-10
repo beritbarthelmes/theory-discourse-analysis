@@ -2,4 +2,4 @@ data_raw/
 *.pdf
 *.env
 outputs/
-data_xml/
+data_xml/**
