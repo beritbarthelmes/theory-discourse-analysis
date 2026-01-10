@@ -23,11 +23,11 @@ Each row corresponds to one article. The dataset includes:
 - `DOI`: Digital Object Identifier  
 - `date`: Publication date  
 - `authors`: Article authors  
-- `article_type`: Empirical, review, or theoretical/modeling  
-- `research_type`: Basic or applied research  
+- `article_type`: Empirical (1), Review (2), Theoretical/Modeling (3)  
+- `research_type`: Basic (0), Applied (1)  
 - `expert1_categorization`: Expert-coded stance toward memory decay theory  
-- `interaction_decay_interference`: Whether decay and interference are explicitly integrated  
-- `new_theory_proposed`: Whether a new explanatory theory is proposed  
+- `interaction_decay_interference`: No (0), Yes (1)  
+- `new_theory_proposed`: No (0), Yes (1)  
 
 ---
 
