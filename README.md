@@ -65,6 +65,8 @@ theoretical engagement can be extracted, categorized, and analyzed over time.
 
 ## Data Availability and Reproducibility
 
+Due to copyright restrictions, this repository prioritizes transparent documentation over redistribution of source materials.
+
 - Full-text articles and PDFs are not included in this repository.
 - Article-level metadata and expert coding decisions are documented in `manifests/`.
 - Automated classification steps require user-provided API credentials.
