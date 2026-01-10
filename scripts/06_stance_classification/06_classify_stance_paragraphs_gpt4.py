@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 
 # create argument parser
 parser = argparse.ArgumentParser()
+parser.add_argument("--model", type=str, default="gpt-4", help="OpenAI model name")
 parser.add_argument("-i", "--input", type=str, required=True, help="input csv file")
 parser.add_argument("-o", "--output", type=str, required=True, help="output csv file")
 args = parser.parse_args()
@@ -62,15 +63,19 @@ def completion_with_backoff(**kwargs):
     args.pop("filename")
     return openai.ChatCompletion.create(**args)
 
-def chatGPT_rate_category(query, paragraph, filename):
-    logger.info(f"Iteration {i+1} for {filename}")
+def chatGPT_rate_category(query, paragraph, filename, paragraph_idx=None):
+    if paragraph_idx is None:
+        logger.info(f"Rating paragraph for {filename}")
+    else:
+        logger.info(f"Rating paragraph {paragraph_idx} for {filename}")
+
     messages = [{"role": "system", "content" : query},
                 {"role": "user", "content" : paragraph},
                 ]
     
     # define parameters
-    model_engine = "gpt-4"
-    temperature = 0.3
+    model_engine = args.model
+    temperature = 0.0
 
     # submit the QUERY
     completion = completion_with_backoff(
@@ -110,6 +115,17 @@ def chatGPT_rate_category(query, paragraph, filename):
 if __name__ == "__main__":
     load_dotenv()
 
+    import datetime, platform
+    run_info = {
+        "timestamp_utc": datetime.datetime.utcnow().isoformat(),
+        "model": args.model,
+        "temperature": 0.0,
+        "iterations": getattr(args, "iterations", None),
+        "python": platform.python_version(),
+    }
+    logger.info(f"RUN_INFO {run_info}")
+
+
     # set OpenAI key
     openai.api_key = os.getenv("GPT4_KEY")
 
@@ -132,7 +148,7 @@ if __name__ == "__main__":
 
         for p in tqdm(range(3), leave=False):
             paragraph = input.loc[i, f"p{p+1}"]
-            category_id, rationale = chatGPT_rate_category(QUERY, paragraph, row["filename"])
+            category_id, rationale = chatGPT_rate_category(QUERY, paragraph, row["filename"], paragraph_idx=p+1)
             input.at[i, f"p{p+1}_rating_category"] = category_id
             input.at[i, f"p{p+1}_rating_rationale"] = rationale
 
