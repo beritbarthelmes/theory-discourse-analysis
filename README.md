@@ -38,46 +38,45 @@ theoretical engagement can be extracted, categorized, and analyzed over time.
 ├── .gitignore
 └── README.md
 
----
+```
 
 ## Directory Description
 
-- scripts/
-Stepwise analysis pipeline (search, XML parsing, metadata reconstruction, relevance screening,
-stance classification, visualization). Each subdirectory contains a README describing its role.
+- **scripts/**  
+  Stepwise analysis pipeline (search, XML parsing, metadata reconstruction, relevance screening,
+  stance classification, visualization). Each subdirectory contains a README describing its role.
 
-- data_raw/
-Intended for local storage of PDF files.
-Empty in the public repository due to copyright restrictions.
+- **data_raw/**  
+  Intended for local storage of PDF files.  
+  Empty in the public repository due to copyright restrictions.
 
-- data_xml/
-Structured XML representations of articles (e.g., GROBID output).
-Only directory structure and documentation are included publicly.
+- **data_xml/**  
+  Structured XML representations of articles (e.g., GROBID output).  
+  Only directory structure and documentation are included publicly.
 
-- manifests/
-Curated, article-level documentation of the analytic corpus
-(e.g., memory_decay_corpus.xlsx). Contains metadata and expert coding variables
-without full texts or substantial excerpts.
+- **manifests/**  
+  Curated, article-level documentation of the analytic corpus  
+  (e.g., `memory_decay_corpus.xlsx`). Contains metadata and expert coding variables
+  without full texts or substantial excerpts.
 
-- outputs/
-Analysis outputs (tables, figures) generated locally and not version-controlled.
+- **outputs/**  
+  Analysis outputs (tables, figures) generated locally and not version-controlled.
 
 ---
 
 ## Data Availability and Reproducibility
 
 - Full-text articles and PDFs are not included in this repository.
-- Article-level metadata and expert coding decisions are documented in manifests/.
+- Article-level metadata and expert coding decisions are documented in `manifests/`.
 - Automated classification steps require user-provided API credentials.
 - Scripts assume local paths as documented in subdirectory READMEs.
 
 ---
 
 ## Notes
+
 - Outputs characterize how theories are discussed, not their empirical validity.
 - Automated classifications should be interpreted cautiously and, where possible,
-validated against expert judgments.
+  validated against expert judgments.
 - This repository serves as a methodological proof of concept for discourse-based
-analyses of theory reception in psychology.
-
----
+  analyses of theory reception in psychology.
