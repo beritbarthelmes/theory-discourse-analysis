@@ -1,6 +1,7 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+"""
+Project: Theory Discourse Analysis
+Identify and remove duplicate article XML files based on embedded MD5 identifiers
+"""
 
 import xml.etree.ElementTree as ET
 import os
