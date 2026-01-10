@@ -1,8 +1,7 @@
 # Assessing Psychology’s Theory Crisis: A Disourse-Based Analysis
 **Berit T. Barthelmes & Vencislav Popov**
 
-A reproducible analysis pipeline for examining how scientific articles position themselves
-with respect to a target theory. The analysis concerns *discourse patterns*, not theoretical correctness.
+This project examines how scientific articles position themselves with respect to a target theory, focusing on patterns in theoretical discourse rather than on assessing theoretical correctness.
 
 ---
 
