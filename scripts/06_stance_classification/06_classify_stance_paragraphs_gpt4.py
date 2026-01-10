@@ -62,8 +62,12 @@ def completion_with_backoff(**kwargs):
     args.pop("filename")
     return openai.ChatCompletion.create(**args)
 
-def chatGPT_rate_category(query, paragraph, filename):
-    logger.info(f"Iteration {i+1} for {filename}")
+def chatGPT_rate_category(query, paragraph, filename, paragraph_idx=None):
+    if paragraph_idx is None:
+        logger.info(f"Rating paragraph for {filename}")
+    else:
+        logger.info(f"Rating paragraph {paragraph_idx} for {filename}")
+
     messages = [{"role": "system", "content" : query},
                 {"role": "user", "content" : paragraph},
                 ]
@@ -132,7 +136,7 @@ if __name__ == "__main__":
 
         for p in tqdm(range(3), leave=False):
             paragraph = input.loc[i, f"p{p+1}"]
-            category_id, rationale = chatGPT_rate_category(QUERY, paragraph, row["filename"])
+            category_id, rationale = chatGPT_rate_category(QUERY, paragraph, row["filename"], paragraph_idx=p+1)
             input.at[i, f"p{p+1}_rating_category"] = category_id
             input.at[i, f"p{p+1}_rating_rationale"] = rationale
 
