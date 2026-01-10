@@ -1,6 +1,5 @@
-# Master's thesis Psychology
-# University of Zurich
-# Author: Berit Barthelmes
+# Project: Theory Discourse Analysis
+# Generate descriptive summaries, agreement metrics, and stance-over-time plots from the processed dataset
 
 library("readxl")
 library("ggplot2")
