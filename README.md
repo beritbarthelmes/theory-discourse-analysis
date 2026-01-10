@@ -1,8 +1,7 @@
 # Assessing Psychology’s Theory Crisis: A Discourse-Based Analysis
 **Berit T. Barthelmes & Vencislav Popov**
 
-**A pipeline for analyzing how scientific articles position themselves with respect to a target theory.**  
-*The analysis concerns discourse patterns, not theoretical correctness.*
+A pipeline for analyzing how scientific articles position themselves with respect to a target theory. The analysis concerns discourse patterns, not theoretical correctness.
 
 ---
 
