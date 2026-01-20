@@ -1,5 +1,18 @@
 # Project: Theory Discourse Analysis
-# Generate descriptive summaries, agreement metrics, and stance-over-time plots from the processed dataset
+#
+# Generate descriptive summaries, agreement metrics, and stance-over-time plots
+# from the processed dataset.
+#
+# Outputs:
+# - Figures and plots generated during the analysis session
+# - Summary statistics and agreement metrics printed to the console
+#
+# Notes:
+# - Expects a processed dataset with article metadata, expert labels,
+#   and LLM-derived annotations
+# - This script is primarily exploratory and assumes local data paths
+# - For reproducibility, consider defining input paths at the top of the script
+
 
 library("readxl")
 library("ggplot2")
