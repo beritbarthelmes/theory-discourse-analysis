@@ -85,3 +85,9 @@ All preprocessing, screening logic, stance definitions, prompts, and aggregation
   validated against expert judgments.
 - This repository serves as a methodological proof of concept for discourse-based
   analyses of theory reception in psychology.
+
+---
+
+## Contact
+
+For questions, please contact: Berit T. Barthelmes (bbart10@uic.edu)
