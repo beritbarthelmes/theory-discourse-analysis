@@ -1,8 +1,11 @@
 """
 Project: Theory Discourse Analysis
-Template for full-text acquisition: given a list of DOIs, obtain PDFs via lawful access routes.
+Template for full-text acquisition: given a list of DOIs, obtain PDFs via lawful, license-compliant access routes.
+
 This public repository does not include automated downloading of copyrighted PDFs.
+Users should provide PDFs obtained through institutional/library access or other lawful sources.
 """
+
 
 from pathlib import Path
 from typing import Iterable
