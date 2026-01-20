@@ -1,6 +1,15 @@
 """
 Project: Theory Discourse Analysis
-Automate EBSCOhost searches for a theory-specific query and access available full-text articles via a browser-based workflow
+Automate EBSCOhost searches for a theory-specific query and access available full-text
+articles via a browser-based workflow.
+
+Outputs:
+- PDFs downloaded via the system browser (location determined by browser settings)
+- Optional: HTML full texts saved to ./ebsco_articles/html/ when get_html() is enabled
+
+Notes:
+- Institution-specific workflow (UZH ezproxy / EBSCOhost UI); selectors may require adaptation
+- Uses Selenium to respect publisher-controlled access and copyright constraints
 """
 
 from dotenv import load_dotenv
@@ -34,9 +43,10 @@ def get_driver():
   return driver
 
 
-def driver_wait(driver, tag, time):
-  element = WebDriverWait(driver, time).until(EC.visibility_of_element_located((By.CSS_SELECTOR, tag)))
-  return element
+def driver_wait(driver, selector, timeout_s):
+    return WebDriverWait(driver, timeout_s).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, selector))
+    )
 
 
 def login(driver, url, username, password):
@@ -125,78 +135,80 @@ def get_pdf(driver, link):
 
 
 def get_links(driver, results_path):
-  # wait for page to be loaded
-  driver_wait(driver, "h1[class='page-title alt']", 20)
-  # wait for "next" link to be available, to get to next page
-  _next = driver_wait(driver,"a[title='Next']",10)
+    # wait for page to be loaded
+    driver_wait(driver, "h1[class='page-title alt']", 20)
+    # wait for "next" link to be available
+    _next = driver_wait(driver, "a[title='Next']", 10)
 
-  while _next:
-      # get articles on the page
-      # wait for heading links of articles, max. 50 seconds
-      driver_wait(driver, "li[class='result-list-li']", 50)
-      links = driver.find_elements(By.CSS_SELECTOR, "li[class='result-list-li']")
-      # get index, format, html_link, pdf_link
-      # result list for saving one dictionary per article
-      res = []
-      # iterate over every visible article link / box 
-      for link in links:
-        # dictionary for each article with information on index, formats, html link
-        dic = {}
-        # get index, find element in box, e.g. "4." -> "4"
-        dic['index'] = link.find_element(By.CSS_SELECTOR, "span[class='record-index']").text.replace('.','').replace(',','')
-        
-        # get the available format for the article
-        # take <a> -> html links
+    while _next:
+        # wait for articles on the page
+        driver_wait(driver, "li[class='result-list-li']", 50)
+        links = driver.find_elements(By.CSS_SELECTOR, "li[class='result-list-li']")
+
+        res = []
+        for link in links:
+            dic = {}
+
+            # article index (e.g., "4.")
+            dic['index'] = link.find_element(
+                By.CSS_SELECTOR, "span[class='record-index']"
+            ).text.replace('.', '').replace(',', '')
+
+            # available formats
+            try:
+                formats = link.find_elements(
+                    By.CSS_SELECTOR, "span[class='record-formats'] a"
+                )
+            except Exception:
+                continue
+
+            dic['formats'] = [
+                re.sub("[^a-zA-Z]+", "", f.get_attribute('id'))
+                for f in formats
+            ]
+
+            # HTML link
+            dic['html_link'] = link.find_element(
+                By.CSS_SELECTOR, "a[class='title-link color-p4']"
+            ).get_attribute('href')
+
+            # PDF link (optional)
+            try:
+                dic['pdf_link'] = link.find_element(
+                    By.CSS_SELECTOR, "a[title='PDF Full Text']"
+                ).get_attribute('href')
+            except Exception:
+                pass
+
+            res.append(dic)
+
+        # download PDFs
+        for article in res:
+            if 'pdfft' in article['formats'] and 'pdf_link' in article:
+                get_pdf(driver, article['pdf_link'])
+
+        # go to next page
         try:
-          dic['formats'] = link.find_elements(By.CSS_SELECTOR, "span[class='record-formats'] a")
-        except:
-          continue
-        
-        # gets link id in link element, e.g. "htmlft" in right format
-        dic['formats'] = [_format.get_attribute('id') for _format in dic['formats']]
-        dic['formats'] = [re.sub("[^a-zA-Z]+", "", _format) for _format in dic['formats']]
-        
-        # get the article link from button, information in <a href="http://link_to_article">HTML</a>
-        dic['html_link'] = link.find_element(By.CSS_SELECTOR, "a[class='title-link color-p4']").get_attribute('href')
-        try:
-          dic['pdf_link'] = link.find_element(By.CSS_SELECTOR, "a[title='PDF Full Text']").get_attribute('href')
-        except:
-          pass
-        res.append(dic)
+            _next = driver_wait(driver, "a[title='Next']", 10)
+            driver.execute_script("arguments[0].click();", _next)
+        except Exception:
+            _next = False
 
-      print(res)
-      # grab html for each link
-      for article in res:
-        print(article["index"], article["formats"])
-        # if 'htmlft' in article['formats']:
-        #   get_html(driver, article['html_link'], results_path, article['index'])
-        if 'pdfft' in article['formats']:
-          get_pdf(driver, article['pdf_link'])
-
-      # click Next
-      try:
-        _next = driver_wait(driver,"a[title='Next']",10)
-        driver.execute_script("arguments[0].click();", _next)
-      except:
-        # break loop on last page
-        _next = False
-      sleep(3)
+        sleep(3)
  
 def fetch_articles_ebsco():
-  # define variables
-  results_path = "./ebsco_articles/html" # define folder for results
-  search_term_1 = "memory"
-  search_term_2 = "decay" 
-  ezproxy_url = "http://ezproxy.uzh.ch/login?auth=shibboleth&url=http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=pdh"
-  
-  driver = get_driver()
+    results_path = "./ebsco_articles/html"  # used only if HTML capture is enabled
+    os.makedirs(results_path, exist_ok=True)
 
-  # only used if you are outside the university VPN
-  # ezproxy_username = os.environ.get("EZ_PROXY_USERNAME")
-  # ezproxy_password = os.environ.get("EZ_PROXY_PASSWORD")
-  # login(driver, ezproxy_url, ezproxy_username, ezproxy_password)
+    search_term_1 = "memory"
+    search_term_2 = "decay"
+    ezproxy_url = "http://ezproxy.uzh.ch/login?auth=shibboleth&url=http://search.ebscohost.com/login.aspx?authtype=ip,uid&profile=ehost&defaultdb=pdh"
 
-  driver.get(ezproxy_url)
-  search(driver, search_term_1, search_term_2)
-  get_links(driver, results_path)
-  driver.quit()
+    driver = get_driver()
+    try:
+        driver.get(ezproxy_url)
+        search(driver, search_term_1, search_term_2)
+        get_links(driver, results_path)
+    finally:
+        driver.quit()
+
