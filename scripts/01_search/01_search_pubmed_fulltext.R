@@ -1,5 +1,20 @@
 # Project: Theory Discourse Analysis
-# Retrieve and scope theory-related articles across PubMed, PMC, PLOS, and Crossref for corpus construction
+# Scope and retrieve theory-related articles across PubMed, PMC, PLOS, and Crossref
+# for corpus construction and exploratory coverage assessment.
+
+# Outputs (written to working directory or subfolders):
+# - pubmed_articles/     (XML full texts where available)
+# - pmc_articles/        (XML full texts where available)
+# - plos_articles/       (XML manuscripts downloaded directly)
+# - Publisher_distribution.csv
+# - Journals_distribution.csv
+
+# Notes:
+# - Script is intended for corpus scoping and coverage exploration, not a single
+#   fully reproducible pipeline run.
+# - Uses public APIs (NCBI Entrez, Crossref, PLOS) with rate-limit-aware batching.
+# - Full-text availability varies by source; missing downloads are expected.
+# - Some steps reflect historical experimentation and are retained for transparency.
 
 # Install packages
 library(rentrez)
