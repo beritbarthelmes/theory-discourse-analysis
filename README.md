@@ -1,7 +1,7 @@
-# Assessing Psychology’s Theory Crisis: A Discourse-Based Analysis
+# Tracking Theory Reception in Psychological Science: A Discourse-Based Approach with a Case Study of Memory-Decay Theory 
 **Berit T. Barthelmes & Vencislav Popov**
 
-This project examines how scientific articles position themselves with respect to a target theory, focusing on patterns in theoretical discourse rather than on assessing theoretical correctness.
+This project examines how scientific articles position themselves at the article level with respect to a target theory, focusing on patterns in theoretical discourse rather than on assessing theoretical correctness.
 
 ---
 
@@ -21,7 +21,9 @@ literature on **memory decay theory**, tracking how articles:
 - mention the theory without clear commitment.
 
 The goal is not to adjudicate the theory, but to demonstrate how discourse-based patterns of
-theoretical engagement can be extracted, categorized, and analyzed over time.
+theoretical engagement can be extracted, categorized, and analyzed over time. 
+
+As in the accompanying manuscript, stance categories are defined a priori and interpreted as indicators of discursive positioning, not evidential strength or theoretical truth.
 
 ---
 
@@ -29,7 +31,7 @@ theoretical engagement can be extracted, categorized, and analyzed over time.
 
 ```text
 .
-├── scripts/        # Stepwise analysis pipeline
+├── scripts/        # Stepwise analysis pipeline (search → screening → stance → aggregation)
 ├── data_raw/       # Local PDFs (not version-controlled)
 ├── data_xml/       # XML representations of articles (e.g., GROBID output)
 ├── manifests/      # Article-level corpus documentation
@@ -71,6 +73,8 @@ Due to copyright restrictions, this repository prioritizes transparent documenta
 - Article-level metadata and expert coding decisions are documented in `manifests/`.
 - Automated classification steps require user-provided API credentials.
 - Scripts assume local paths as documented in subdirectory READMEs.
+
+All preprocessing, screening logic, stance definitions, prompts, and aggregation procedures are fully documented and reproducible given access to the same source materials.
 
 ---
 
