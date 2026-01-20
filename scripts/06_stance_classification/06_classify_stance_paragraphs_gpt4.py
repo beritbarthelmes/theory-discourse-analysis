@@ -1,16 +1,28 @@
 """
 Project: Theory Discourse Analysis
-Classify theory-relevant paragraphs by stance toward a target theory using GPT-assisted annotations
+
+Classify theory-relevant paragraphs by stance toward a target theory using LLM-assisted annotations.
+
+Outputs:
+- CSV file with per-paragraph stance labels and rationales
+  (written to: <output>.csv)
+- Log file capturing run metadata and backoff events
+  (written to: <output>.log)
+
+Notes:
+- Uses the OpenAI ChatCompletions API to assign stance labels at the paragraph level
+- Each article is assumed to contain a fixed number of theory-relevant paragraphs (e.g., p1–p3)
+- Designed as an annotation aid: automated labels should be reviewed by an expert
+- Requires an API key in the environment (e.g., GPT4_KEY)
 """
 
+
 import os 
-import xml.etree.ElementTree as ET
 import pandas as pd
 import openai
 import backoff
 from tqdm import tqdm
 import argparse
-import numpy as np
 from openai.error import OpenAIError
 import logging
 from dotenv import load_dotenv
