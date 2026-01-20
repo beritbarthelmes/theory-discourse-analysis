@@ -1,7 +1,20 @@
 """
 Project: Theory Discourse Analysis
-Classify article abstracts by stance toward a target theory using GPT-assisted annotations
+
+Classify article abstracts by stance toward a target theory using LLM-assisted annotations.
+
+Outputs:
+- CSV with per-article stance ratings, rationales, and mean stance score
+  (written to: <output>.csv)
+- Log file capturing run metadata and backoff events
+  (written to: <output>.log)
+
+Notes:
+- Uses the OpenAI ChatCompletions API to assign stance labels
+- Designed as an annotation aid: automated labels should be reviewed by an expert
+- Requires an API key in the environment (e.g., GPT4_KEY)
 """
+
 
 import os 
 import xml.etree.ElementTree as ET
@@ -49,7 +62,7 @@ QUERY = """Human rates will be given three paragraphs of scientific articles, an
         Does the text explicitly mention memory decay as one of several possibilities without discussing evidence for or against or without \
         assuming it's true? If so, respond 'ambiguous'. \
         Only assign this category if 'tacit_acceptance' doesn't fit.\n\n \
-        Provide a clear category label ("ambiguous" or "support" or "against" or "tacit acceptance") on the first line for the paragraph below followed by your rationale in a new paragraph."""
+        Provide a clear category label ("ambiguous" or "support" or "against" or "tacit_acceptance") on the first line for the paragraph below followed by your rationale in a new paragraph."""
 
 
 def log_backoff_exception(details):
@@ -140,7 +153,7 @@ if __name__ == "__main__":
     logger.info(f"READING FILE {input_csv}")
 
     # start populating dataframe list
-    input = pd.read_csv(input_csv)
+    df_in = pd.read_csv(input_csv)
     
     # add required columns to dataframe
     print("RATING ARTICLES...\n")
@@ -163,7 +176,7 @@ if __name__ == "__main__":
         # saving to csv as safety
         logger.info(f"SAVING RATINGS for {row['filename']}")
         df_final = pd.concat(dfs, ignore_index=True)
-        df_final = df_final.to_csv(f"{args.output}.csv", index=False)
+        df_final.to_csv(f"{args.output}.csv", index=False)
     
     print("DONE")
 
