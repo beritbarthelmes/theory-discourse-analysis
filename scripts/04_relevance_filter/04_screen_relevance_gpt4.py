@@ -1,7 +1,21 @@
 """
 Project: Theory Discourse Analysis
-Screen article abstracts for conceptual relevance to a target theory using GPT-assisted annotations
+
+Screen article abstracts for conceptual relevance to a target theory using LLM-assisted annotations.
+
+Outputs:
+- CSV file with per-article relevance ratings, rationales, and mean relevance score
+  (written to: <output>/<output_filename>.csv)
+- Log file capturing run metadata and backoff events
+  (written to: <output>/<output_filename>.log)
+
+Notes:
+- Uses the OpenAI ChatCompletions API to label abstracts as "relevant" vs "irrelevant"
+- Designed as an annotation aid: automated labels should be reviewed by an expert
+- For reproducibility, record the model name, temperature, and evaluation window
+- Requires an API key in the environment (e.g., GPT4_KEY) and local TEI XML inputs
 """
+
 
 import os 
 import xml.etree.ElementTree as ET
@@ -18,17 +32,23 @@ from dotenv import load_dotenv
 # create argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=str, default="gpt-4", help="OpenAI model name")
-parser.add_argument("output_filename", type=str, help="filename of output file")
+parser.add_argument("--output_filename", type=str, required=True, help="Base name for output CSV/log")
 parser.add_argument("-i", "--input", type=str, required=True, help="directory with input files")
 parser.add_argument("-o", "--output", type=str, required=True, help="directory of output file")
 parser.add_argument("-iter", "--iterations", type=int, required=False, default=10, help="number of iterations per article")
 args = parser.parse_args()
 
-logging.basicConfig(filename=f"{args.output}{args.output_filename}.log",
+os.makedirs(args.output, exist_ok=True)
+
+out_log = os.path.join(args.output, f"{args.output_filename}.log")
+out_csv = os.path.join(args.output, f"{args.output_filename}.csv")
+
+logging.basicConfig(filename=out_log,
                     format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
                     datefmt="%H:%M:%S",
                     filemode="w",
                     level=logging.DEBUG)
+
 logger = logging.getLogger('rating_log')
 
 openai.util.logger.setLevel(logging.INFO)
@@ -52,11 +72,10 @@ QUERY = """Human rates will be given a set of scientific articles, and they will
         Only assign this category if 'tacit_acceptance' doesn't fit.\n\n \
         We first have to select which articles to present to human raters. We only want to show them articles that can be categorized in one \
         of the categories above. If articles cannot be categorized in one of the categories above, they are irrelevant. We have several thousand \
-        scientific articles, but many of them are not relevant for the QUERY above. \Some articles are irrelevant because they are done with \
+        scientific articles, but many of them are not relevant for the QUERY above. Some articles are irrelevant because they are done with \
         non-human animals. Others are irrelevant because they do not mention memory decay explicitly. \Others are irrelevant because they discuss \
         degradation of memory in old age. We will give you an abstract and your task is to rate the abstract as relevant or irrelevant for the \
-        human raters. \
-        Provide a clear category label ("relevant" or "irrelevant") on the first line for the abstract below followed by your rationale in a new paragraph."""
+        human raters. Provide a clear category label ("relevant" or "irrelevant") on the first line for the abstract below followed by your rationale in a new paragraph."""
 
 
 def log_backoff_exception(details):
@@ -210,7 +229,7 @@ if __name__ == "__main__":
         # saving to csv as safety
         logger.info(f"SAVING RATINGS for {df['filename'][0]}")
         df_final = pd.concat(dfs, ignore_index=True)
-        df_final.to_csv(f"{args.output}{args.output_filename}.csv", index=False)
+        df_final.to_csv(out_csv, index=False)
     
     print("DONE")
 
