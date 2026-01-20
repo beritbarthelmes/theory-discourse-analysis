@@ -1,7 +1,24 @@
 """
 Project: Theory Discourse Analysis
+
 Identify and remove duplicate article XML files based on embedded MD5 identifiers
+in TEI-encoded full-text documents.
+
+Purpose:
+- Detect duplicate articles produced during bulk XML ingestion (e.g., via GROBID or EBSCO exports)
+- Ensure one-to-one correspondence between XML files and articles in the analytic corpus
+
+Inputs:
+- Directory containing TEI XML files with <idno type="MD5"> identifiers
+
+Outputs:
+- Duplicate XML files are deleted in-place from the input directory
+
+Notes:
+- Deduplication relies on the presence and correctness of MD5 identifiers in TEI headers
+- Intended as a preprocessing step prior to text extraction and stance classification
 """
+
 
 import xml.etree.ElementTree as ET
 import os
@@ -29,6 +46,7 @@ def filter_duplicate_articles(directory):
       # checking if it is a file
       tree = ET.parse(file)
       root = tree.getroot()
+      # MD5 hash used as content-based article identifier
       article_hash = root.find(".//{http://www.tei-c.org/ns/1.0}idno[@type='MD5']").text
       i += 1
       if article_hash not in seen:
