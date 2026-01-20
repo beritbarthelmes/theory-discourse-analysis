@@ -1,7 +1,23 @@
 """
 Project: Theory Discourse Analysis
-Remove article XML files that lack an abstract as part of corpus quality control
+
+Remove article XML files that lack an abstract as part of corpus quality control.
+
+Purpose:
+- Enforce a minimum metadata/content standard for inclusion in the analytic corpus
+- Exclude articles without abstracts, which cannot be reliably screened or classified
+
+Inputs:
+- Directory containing TEI XML files
+
+Outputs:
+- XML files without <abstract> elements are deleted in-place from the input directory
+
+Notes:
+- Assumes TEI-compliant XML structure with namespace http://www.tei-c.org/ns/1.0
+- Intended as an early preprocessing step prior to relevance screening and text extraction
 """
+
 
 import xml.etree.ElementTree as ET
 import os
