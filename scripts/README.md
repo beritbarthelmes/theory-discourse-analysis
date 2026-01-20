@@ -22,21 +22,22 @@ locally and may require non-public data, API keys, or licensed databases.
   XML parsing and metadata reconstruction (e.g., fixing missing fields from EBSCO XML).
 
 - `04_relevance_filter/`  
-  Automated relevance screening using GPT-based classification.
+  Automated relevance screening using LLM-assisted classification.
 
 - `05_extract_text/`  
   Extraction of article text and paragraph-level units from XML.
 
 - `06_stance_classification/`  
-  Paragraph-level stance classification and aggregation to article-level labels.
+  Paragraph-level stance classification and aggregation to article-level stance labels.
 
 - `07_visualization/`  
   Statistical summaries and visualizations of discourse trends.
 
 - `notebooks/`  
-  Exploratory and legacy notebooks used during development.  
+  Exploratory and legacy notebooks used during development.
   These are not required for reproducing the main pipeline.
-
+  These notebooks are retained for transparency but are not maintained.
+  
 ---
 
 ## Notes on Reproducibility
