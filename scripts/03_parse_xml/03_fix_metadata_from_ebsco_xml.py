@@ -1,7 +1,26 @@
 """
 Project: Theory Discourse Analysis
-Reconstruct missing metadata by matching article DOI/title in a CSV to an EBSCO XML export.
+
+Reconstruct missing article metadata by matching records in a CSV
+to an exported EBSCO XML file using DOI and/or title matching.
+
+Purpose:
+- Fill in missing publication dates, titles, and author lists
+- Support corpus documentation when source metadata is incomplete
+
+Inputs:
+- CSV file with partial article metadata (e.g., DOI, title)
+- EBSCO XML export containing full bibliographic records
+
+Outputs:
+- CSV file with reconstructed metadata fields populated where matches are found
+
+Notes:
+- Matching is heuristic (substring-based DOI/title matching)
+- Assumes EBSCO XML structure used by standard exports
+- Intended for corpus preparation, not authoritative bibliographic correction
 """
+
 
 import pandas as pd
 from lxml import etree
